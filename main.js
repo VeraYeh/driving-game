@@ -23,8 +23,10 @@ var car = {
   location: {
     x: 0,
     y: 0
-  }
+  },
+  isMoving: false
 };
+var timer;
 
 $body.addEventListener('keydown', function (event) {
   for (let i = 0; i < car.directions.length; i++) {
@@ -36,7 +38,12 @@ $body.addEventListener('keydown', function (event) {
 
 $body.addEventListener('keydown', function (event) {
   if (event.key === ' ') {
-    setInterval(start, 16);
+    car.isMoving = !car.isMoving;
+    if (car.isMoving) {
+      timer = setInterval(start, 16);
+    } else {
+      clearInterval(timer);
+    }
   }
 });
 
