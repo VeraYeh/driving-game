@@ -29,25 +29,57 @@ var car = {
 var timer;
 
 $body.addEventListener('keydown', function (event) {
-  for (let i = 0; i < car.directions.length; i++) {
-    if (event.key === car.directions[i].keyPressed) {
-      $image.className = car.directions[i].direction;
-    }
-  }
-});
-
-$body.addEventListener('keydown', function (event) {
   if (event.key === ' ') {
     car.isMoving = !car.isMoving;
     if (car.isMoving) {
-      timer = setInterval(start, 16);
+      setTimer();
     } else {
       clearInterval(timer);
     }
   }
+
+  for (let i = 0; i < car.directions.length; i++) {
+    if (event.key === car.directions[i].keyPressed) {
+      $image.className = car.directions[i].direction;
+      if (car.isMoving) {
+        clearInterval(timer);
+        setTimer();
+      }
+    }
+  }
 });
 
-function start() {
+function goRight() {
   car.location.x += 12;
   $imageContainer.style.left = car.location.x + 'px';
+}
+
+function goLeft() {
+  car.location.x -= 12;
+  $imageContainer.style.left = car.location.x + 'px';
+}
+
+function goUp() {
+  car.location.y -= 12;
+  $imageContainer.style.top = car.location.y + 'px';
+}
+
+function goDown() {
+  car.location.y += 12;
+  $imageContainer.style.top = car.location.y + 'px';
+}
+
+function setTimer() {
+  if ($image.className === 'left') {
+    timer = setInterval(goLeft, 16);
+  }
+  if ($image.className === 'right') {
+    timer = setInterval(goRight, 16);
+  }
+  if ($image.className === 'up') {
+    timer = setInterval(goUp, 16);
+  }
+  if ($image.className === 'down') {
+    timer = setInterval(goDown, 16);
+  }
 }
